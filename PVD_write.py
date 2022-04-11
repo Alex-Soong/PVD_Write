@@ -26,7 +26,7 @@ def zigzag(_matrix):
         else:
             x, y = x + 1, y - 1
             slope = True
-    return (lst_x, lst_y)
+    return lst_x, lst_y
 
 
 # 计算log2wk和lk
@@ -69,10 +69,11 @@ def bits2int(_bits):
 def write(fileName, infotoWrite):
     im0 = Image.open(fileName)
     m = np.array(im0)
+    print(m.shape)
     lst_x, lst_y = zigzag(m)
     for i in range(0, len(lst_x), 2):
         x1, y1, x2, y2 = lst_x[i], lst_y[i], lst_x[i+1], lst_y[i+1]
-        p1, p2 = m[x1][y1], m[x2][y2]
+        p1, p2 = int(m[x1][y1]), int(m[x2][y2])
         
         leng, lk = calcuSize(p1, p2)
         if leng < len(infotoWrite):
@@ -97,16 +98,16 @@ def getBitStr(fileName):
 
 
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
 
-#     if len(sys.argv) > 2:
-#         inputFileName0 = sys.argv[1]
-#         inputFileName1 = sys.argv[2]
-#     else:
-#         print("未指定文件名")
-#         os._exit(0)
-#     bits = getBitStr(inputFileName1)
-#     write(inputFileName0, bits)
+    if len(sys.argv) > 2:
+        inputFileName0 = sys.argv[1]
+        inputFileName1 = sys.argv[2]
+    else:
+        print("未指定文件名")
+        os._exit(0)
+    bits = getBitStr(inputFileName1)
+    write(inputFileName0, bits)
 
 # if __name__ == '__main__':
     
@@ -120,13 +121,13 @@ def getBitStr(fileName):
 #         write(fileName, bits, _label=str(i+1))
     
 
-a = np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12]])
-b = np.array([[1, 2, 3],[4,5,6],[7,8,9]])
+# a = np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12]])
+# b = np.array([[1, 2, 3],[4,5,6],[7,8,9]])
 
-print(zigzag(b))
-print(zigzag(a))
-c = "abc"
-print(c[:5])
-print(c[5:])
+# print(zigzag(b))
+# print(zigzag(a))
+# c = "abc"
+# print(c[:5])
+# print(c[5:])
 
-print(bits2int("1000110"))    
+# print(bits2int("1000110"))    
