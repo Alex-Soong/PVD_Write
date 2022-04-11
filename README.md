@@ -8,3 +8,6 @@
 
 py .\PVD_write.py .\2333_grey.bmp .\m.zip
 
+py .\PVD_read.py .\2333_grey_written.bmp 42243(像素对的个数)
+
+压缩包解压密码：123456

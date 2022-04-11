@@ -6,6 +6,7 @@ import sys, os
 
 # 之字形遍历，返回横纵坐标序列。参数pairCount是像素的个数
 def zigzag(_matrix, _count=0):
+    
     m, n = _matrix.shape
     lst_x = []
     lst_y = []
@@ -82,17 +83,25 @@ def read(fileName, pairCount):
 
 
 if __name__ == '__main__':
+    
     if len(sys.argv) > 2:
         inputFileName = sys.argv[1]
         pairCount = sys.argv[2]
     else:
         print("未指定文件名或像素对个数")
         os._exit(0)
+    if len(sys.argv) > 3:
+        saveFileName = sys.argv[3]
+    else:
+        saveFileName = "m_get.zip"
+        
     
-    bits = read(inputFileName, 42243)
+    bits = read(inputFileName, int(pairCount))
     print("读到的比特串开头：", bits[:100])
     print("读到的比特串结尾：", bits[-100:])
+    f = open(saveFileName, 'wb')
+    bs.BitArray('0b' + bits).tofile(f)
+    print("读出的信息已保存至", saveFileName)
     # str = bs.BitArray(uint=512, length=10)
     # str = str.bin
     
-    print(str)
