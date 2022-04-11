@@ -114,6 +114,7 @@ if __name__ == '__main__':
     count, shape = write(inputFileName0, bits)
     print("图像尺寸：{} * {}".format(shape[1], shape[0]))
     print("写入的像素对个数：", count)
+    print("写入的比特串长度：", len(bits))
     print("写入的比特串开头：", bits[:100])
     print("写入的比特串结尾：", bits[-100:])
     

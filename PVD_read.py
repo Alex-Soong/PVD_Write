@@ -60,7 +60,11 @@ def read(fileName, pairCount):
         d = p2 - p1
         b = abs(d) - lk
         bits = bs.BitArray(uint=b, length=leng).bin
-        res = res + bits
+        if bits != "0":
+            res = res + bits
+    k = len(res) % 8
+    if k > 0:
+        res = res[:-k]
     return res 
     
     
@@ -97,6 +101,7 @@ if __name__ == '__main__':
         
     
     bits = read(inputFileName, int(pairCount))
+    print("读到的比特串长度：", len(bits))
     print("读到的比特串开头：", bits[:100])
     print("读到的比特串结尾：", bits[-100:])
     f = open(saveFileName, 'wb')
@@ -104,4 +109,3 @@ if __name__ == '__main__':
     print("读出的信息已保存至", saveFileName)
     # str = bs.BitArray(uint=512, length=10)
     # str = str.bin
-    
