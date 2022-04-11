@@ -53,6 +53,7 @@ def read(fileName, pairCount):
     m = np.array(im)
     lst_x, lst_y = zigzag(m, pairCount)
     pointNum = len(lst_x)
+    bits = ""
     for i in range(0, pointNum, 2):
         x1, y1, x2, y2 = lst_x[i], lst_y[i], lst_x[i+1], lst_y[i+1]
         p1, p2 = int(m[x1][y1]), int(m[x2][y2])
@@ -60,11 +61,11 @@ def read(fileName, pairCount):
         d = p2 - p1
         b = abs(d) - lk
         bits = bs.BitArray(uint=b, length=leng).bin
-        if bits != "0":
-            res = res + bits
+        res = res + bits
     k = len(res) % 8
+    t = len(bits)
     if k > 0:
-        res = res[:-k]
+        res = res[:-t] + res[-(t - k):]
     return res 
     
     
