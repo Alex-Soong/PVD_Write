@@ -6,5 +6,5 @@
 
 主要用到的库：NumPy、PIL
 
-
+py .\PVD_write.py .\2333_grey.bmp .\m.zip
 

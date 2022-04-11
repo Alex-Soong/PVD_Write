@@ -1,3 +1,4 @@
+from turtle import shape
 from PIL import Image
 import numpy as np
 import bitstring as bs
@@ -69,8 +70,8 @@ def bits2int(_bits):
 def write(fileName, infotoWrite):
     im0 = Image.open(fileName)
     m = np.array(im0)
-    print(m.shape)
     lst_x, lst_y = zigzag(m)
+    pairCount = 0
     for i in range(0, len(lst_x), 2):
         x1, y1, x2, y2 = lst_x[i], lst_y[i], lst_x[i+1], lst_y[i+1]
         p1, p2 = int(m[x1][y1]), int(m[x2][y2])
@@ -84,11 +85,12 @@ def write(fileName, infotoWrite):
         b = bits2int(str)
         p1_, p2_ = writeInPair(p1, p2, b, lk)
         m[x1][y1], m[x2][y2] = p1_, p2_
+        pairCount += 1
         if len(infotoWrite) == 0:
             break
     im1 = Image.fromarray(m)
     im1.save(fileName[:-4] + "_written" + ".bmp")
-
+    return pairCount, m.shape
 
 def getBitStr(fileName):
     f = open(fileName, "rb")
@@ -107,7 +109,9 @@ if __name__ == '__main__':
         print("未指定文件名")
         os._exit(0)
     bits = getBitStr(inputFileName1)
-    write(inputFileName0, bits)
+    count, shape = write(inputFileName0, bits)
+    print("图像尺寸：",shape)
+    print("写入的像素对个数：",count)
 
 # if __name__ == '__main__':
     
