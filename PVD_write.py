@@ -1,16 +1,16 @@
-from turtle import shape
 from PIL import Image
 import numpy as np
 import bitstring as bs
 import sys, os
 
 
-def zigzag(_matrix):
+# 之字形遍历，返回横纵坐标序列
+def zigzag(_matrix, count=0):
     m, n = _matrix.shape
     lst_x = []
     lst_y = []
     x, y = 0, 0
-    slope = True
+    slope = True   # 表示上一步是否为斜线移动
     for i in range(m * n):
         # print(x, y, i)
         lst_x.append(x)
@@ -30,7 +30,7 @@ def zigzag(_matrix):
     return lst_x, lst_y
 
 
-# 计算log2wk和lk
+# 计算一个像素对儿的log2wk和lk
 def calcuSize(_p1, _p2):
     ranks = [[0, 7], [8, 15], [16, 31], [32, 63], [64, 127], [128, 255]]
     logs = [3, 3, 4, 5, 6, 7]
@@ -43,6 +43,7 @@ def calcuSize(_p1, _p2):
     return (0, 0)
             
 
+# 将信息写入一个像素对儿
 def writeInPair(_p1, _p2, _b, _lk):
     d = _p2 - _p1
     dp = 0
@@ -92,12 +93,12 @@ def write(fileName, infotoWrite):
     im1.save(fileName[:-4] + "_written" + ".bmp")
     return pairCount, m.shape
 
+
 def getBitStr(fileName):
     f = open(fileName, "rb")
     str = f.read()
     str = bs.BitArray(str).bin
     return str
-
 
 
 if __name__ == '__main__':
@@ -110,8 +111,10 @@ if __name__ == '__main__':
         os._exit(0)
     bits = getBitStr(inputFileName1)
     count, shape = write(inputFileName0, bits)
-    print("图像尺寸：",shape)
-    print("写入的像素对个数：",count)
+    print("图像尺寸：{} * {}".format(shape[1], shape[0]))
+    print("写入的像素对个数：", count)
+    print("写入的比特串的开头：", bits[:100])
+    
 
 # if __name__ == '__main__':
     
