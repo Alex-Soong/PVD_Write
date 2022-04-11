@@ -5,7 +5,7 @@ import sys, os
 
 
 # 之字形遍历，返回横纵坐标序列
-def zigzag(_matrix, count=0):
+def zigzag(_matrix):
     m, n = _matrix.shape
     lst_x = []
     lst_y = []
@@ -83,11 +83,12 @@ def write(fileName, infotoWrite):
             infotoWrite = infotoWrite[leng:]
         else:
             str = infotoWrite
+            infotoWrite = ""
         b = bits2int(str)
         p1_, p2_ = writeInPair(p1, p2, b, lk)
         m[x1][y1], m[x2][y2] = p1_, p2_
         pairCount += 1
-        if len(infotoWrite) == 0:
+        if infotoWrite == "":
             break
     im1 = Image.fromarray(m)
     im1.save(fileName[:-4] + "_written" + ".bmp")
@@ -113,7 +114,8 @@ if __name__ == '__main__':
     count, shape = write(inputFileName0, bits)
     print("图像尺寸：{} * {}".format(shape[1], shape[0]))
     print("写入的像素对个数：", count)
-    print("写入的比特串的开头：", bits[:100])
+    print("写入的比特串开头：", bits[:100])
+    print("写入的比特串结尾：", bits[-100:])
     
 
 # if __name__ == '__main__':
