@@ -62,10 +62,11 @@ def writeInPair(_p1, _p2, _b, _lk):
 
 
 def bits2int(_bits):
-    pass
+    a = bs.BitArray("0b" + _bits)
+    return a.uint
 
 
-def write(fileName, infotoWrite, _label=""):
+def write(fileName, infotoWrite):
     im0 = Image.open(fileName)
     m = np.array(im0)
     lst_x, lst_y = zigzag(m)
@@ -84,25 +85,8 @@ def write(fileName, infotoWrite, _label=""):
         m[x1][y1], m[x2][y2] = p1_, p2_
         if len(infotoWrite) == 0:
             break
-            
-        
     im1 = Image.fromarray(m)
-    im1.save(fileName[:-4] + "_written" + _label + ".bmp")
-
-# def write(fileName, infotoWrite, _label=""):
-#     im0 = Image.open(fileName)
-#     x = np.array(im0)
-
-#     fSize = x.ravel().shape[0]
-#     infoSize = len(infotoWrite)
-#     length = fSize if fSize < infoSize else infoSize
-#     for i in range(length):
-#         x.ravel()[i] = LSBReplace(x.ravel()[i], int(infotoWrite[i]))
-
-#     im1 = Image.fromarray(x)
-#     im1.save(fileName[:-4] + "_written" + _label + ".bmp")
-
-#     return (infoSize, fSize)
+    im1.save(fileName[:-4] + "_written" + ".bmp")
 
 
 def getBitStr(fileName):
@@ -144,4 +128,5 @@ print(zigzag(a))
 c = "abc"
 print(c[:5])
 print(c[5:])
-    
+
+print(bits2int("1000110"))    
