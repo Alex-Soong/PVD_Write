@@ -6,12 +6,14 @@ import sys, os
 
 def zigzag(_matrix):
     m, n = _matrix.shape
-    lst = []
+    lst_x = []
+    lst_y = []
     x, y = 0, 0
     slope = True
     for i in range(m * n):
         # print(x, y, i)
-        lst.append(_matrix[x][y])
+        lst_x.append(x)
+        lst_y.append(y)
         if (x == 0 or x == m - 1) and y < n - 1 and slope == True:
             y += 1
             slope = False
@@ -24,7 +26,7 @@ def zigzag(_matrix):
         else:
             x, y = x + 1, y - 1
             slope = True
-    return lst
+    return (lst_x, lst_y)
 
 
 # 计算log2wk和lk
@@ -59,21 +61,33 @@ def writeInPair(_p1, _p2, _b, _lk):
     return (p1, p2)
 
 
+def bits2int(_bits):
+    pass
+
+
 def write(fileName, infotoWrite, _label=""):
     im0 = Image.open(fileName)
-    x = np.array(im0)
-
-    fSize = x.ravel().shape[0]
-    infoSize = len(infotoWrite)
-    length = fSize if fSize < infoSize else infoSize
-    for i in range(length):
-        x.ravel()[i] = LSBReplace(x.ravel()[i], int(infotoWrite[i]))
-
-    im1 = Image.fromarray(x)
+    m = np.array(im0)
+    lst_x, lst_y = zigzag(m)
+    for i in range(0, len(lst_x), 2):
+        x1, y1, x2, y2 = lst_x[i], lst_y[i], lst_x[i+1], lst_y[i+1]
+        p1, p2 = m[x1][y1], m[x2][y2]
+        
+        leng, lk = calcuSize(p1, p2)
+        if leng < len(infotoWrite):
+            str = infotoWrite[:leng]
+            infotoWrite = infotoWrite[leng:]
+        else:
+            str = infotoWrite
+        b = bits2int(str)
+        p1_, p2_ = writeInPair(p1, p2, b, lk)
+        m[x1][y1], m[x2][y2] = p1_, p2_
+        if len(infotoWrite) == 0:
+            break
+            
+        
+    im1 = Image.fromarray(m)
     im1.save(fileName[:-4] + "_written" + _label + ".bmp")
-
-    return (infoSize, fSize)
-
 
 # def write(fileName, infotoWrite, _label=""):
 #     im0 = Image.open(fileName)
@@ -127,4 +141,7 @@ b = np.array([[1, 2, 3],[4,5,6],[7,8,9]])
 
 print(zigzag(b))
 print(zigzag(a))
+c = "abc"
+print(c[:5])
+print(c[5:])
     
